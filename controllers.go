@@ -39,9 +39,9 @@ func imageController(o ServerOptions, operation Operation) func(http.ResponseWri
 		}
 
 		var (
-			buf []byte
+			buf     []byte
 			headers http.Header
-			err error
+			err     error
 		)
 
 		if cacheableImageSource, ok := imageSource.(CacheableImageSource); o.HTTPCachePassthru && ok {

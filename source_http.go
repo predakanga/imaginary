@@ -12,7 +12,7 @@ const ImageSourceTypeHttp ImageSourceType = "http"
 
 // Currently only passes headers required for cache control, not validation
 // As per https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching
-var cacheHeaders = [...]string {
+var cacheHeaders = [...]string{
 	"Cache-Control",
 	"Expires",
 	"Last-Modified",
