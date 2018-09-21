@@ -144,11 +144,14 @@ func setCacheHeaders(next http.Handler, ttl int) http.Handler {
 			return
 		}
 
-		ttlDiff := time.Duration(ttl) * time.Second
-		expires := time.Now().Add(ttlDiff)
+		// Only add TTL headers if there are none set upstream
+		if w.Header().Get("Expires") == "" && w.Header().Get("Cache-Control") == "" {
+			ttlDiff := time.Duration(ttl) * time.Second
+			expires := time.Now().Add(ttlDiff)
 
-		w.Header().Add("Expires", strings.Replace(expires.Format(time.RFC1123), "UTC", "GMT", -1))
-		w.Header().Add("Cache-Control", getCacheControl(ttl))
+			w.Header().Add("Expires", strings.Replace(expires.Format(time.RFC1123), "UTC", "GMT", -1))
+			w.Header().Add("Cache-Control", getCacheControl(ttl))
+		}
 	})
 }
 
