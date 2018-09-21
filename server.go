@@ -15,6 +15,7 @@ type ServerOptions struct {
 	Burst              int
 	Concurrency        int
 	HTTPCacheTTL       int
+	HTTPCachePassthru  bool
 	HTTPReadTimeout    int
 	HTTPWriteTimeout   int
 	MaxAllowedSize     int
