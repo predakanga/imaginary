@@ -26,6 +26,7 @@ var OperationsMap = map[string]Operation{
 	"blur":      GaussianBlur,
 	"smartcrop": SmartCrop,
 	"fit":       Fit,
+	"noop":	     Noop,
 }
 
 // Image stores an image binary buffer and its MIME type
@@ -270,6 +271,12 @@ func GaussianBlur(buf []byte, o ImageOptions) (Image, error) {
 	}
 	opts := BimgOptions(o)
 	return Process(buf, opts)
+}
+
+func Noop(buf []byte, o ImageOptions) (Image, error) {
+	// Avoid the use of Process, since that always calls resize
+	mime := GetImageMimeType(bimg.DetermineImageType(buf))
+	return Image{Body: buf, Mime: mime}, nil
 }
 
 func Pipeline(buf []byte, o ImageOptions) (Image, error) {

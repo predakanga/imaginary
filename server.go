@@ -103,6 +103,7 @@ func NewServerMux(o ServerOptions) http.Handler {
 	mux.Handle(join(o, "/watermark"), image(Watermark))
 	mux.Handle(join(o, "/info"), image(Info))
 	mux.Handle(join(o, "/blur"), image(GaussianBlur))
+	mux.Handle(join(o, "/noop"), image(Noop))
 	mux.Handle(join(o, "/pipeline"), image(Pipeline))
 
 	return mux
