@@ -41,6 +41,7 @@ var (
 	aPlaceholder        = flag.String("placeholder", "", "Image path to image custom placeholder to be used in case of error. Recommended minimum image size is: 1200x1200")
 	aDisableEndpoints   = flag.String("disable-endpoints", "", "Comma separated endpoints to disable. E.g: form,crop,rotate,health")
 	aHTTPCacheTTL       = flag.Int("http-cache-ttl", -1, "The TTL in seconds")
+	aHTTPCachePassthru  = flag.Bool("http-cache-passthru", false, "Enable cache header passthrough")
 	aReadTimeout        = flag.Int("http-read-timeout", 60, "HTTP read timeout in seconds")
 	aWriteTimeout       = flag.Int("http-write-timeout", 60, "HTTP write timeout in seconds")
 	aConcurrency        = flag.Int("concurrency", 0, "Throttle concurrency limit per second")
@@ -140,6 +141,7 @@ func main() {
 		KeyFile:            *aKeyFile,
 		Placeholder:        *aPlaceholder,
 		HTTPCacheTTL:       *aHTTPCacheTTL,
+		HTTPCachePassthru:  *aHTTPCachePassthru,
 		HTTPReadTimeout:    *aReadTimeout,
 		HTTPWriteTimeout:   *aWriteTimeout,
 		Authorization:      *aAuthorization,
