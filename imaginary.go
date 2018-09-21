@@ -41,7 +41,7 @@ var (
 	aPlaceholder        = flag.String("placeholder", "", "Image path to image custom placeholder to be used in case of error. Recommended minimum image size is: 1200x1200")
 	aDisableEndpoints   = flag.String("disable-endpoints", "", "Comma separated endpoints to disable. E.g: form,crop,rotate,health")
 	aHTTPCacheTTL       = flag.Int("http-cache-ttl", -1, "The TTL in seconds")
-	aHTTPCachePassthru  = flag.Bool("http-cache-passthru", false, "Enable cache header passthrough")
+	aHTTPCachePassthru  = flag.Bool("http-cache-passthru", false, "Enable cache header passthrough for HTTP sources")
 	aReadTimeout        = flag.Int("http-read-timeout", 60, "HTTP read timeout in seconds")
 	aWriteTimeout       = flag.Int("http-write-timeout", 60, "HTTP write timeout in seconds")
 	aConcurrency        = flag.Int("concurrency", 0, "Throttle concurrency limit per second")
@@ -80,6 +80,7 @@ Options:
   -key <key>                Define API key for authorization
   -mount <path>             Mount server local directory
   -http-cache-ttl <num>     The TTL in seconds. Adds caching headers to locally served files.
+  -http-cache-passthru      Enable cache header passthrough for HTTP sources [default: false]
   -http-read-timeout <num>  HTTP read timeout in seconds [default: 30]
   -http-write-timeout <num> HTTP write timeout in seconds [default: 30]
   -enable-url-source        Restrict remote image source processing to certain origins (separated by commas)
