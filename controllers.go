@@ -38,7 +38,18 @@ func imageController(o ServerOptions, operation Operation) func(http.ResponseWri
 			return
 		}
 
-		buf, err := imageSource.GetImage(req)
+		var (
+			buf []byte
+			headers http.Header
+			err error
+		)
+
+		if cacheableImageSource, ok := imageSource.(CacheableImageSource); ok {
+			buf, headers, err = cacheableImageSource.GetImageWithCacheHeaders(req)
+		} else {
+			buf, err = imageSource.GetImage(req)
+		}
+
 		if err != nil {
 			ErrorReply(req, w, NewError(err.Error(), BadRequest), o)
 			return
@@ -49,7 +60,7 @@ func imageController(o ServerOptions, operation Operation) func(http.ResponseWri
 			return
 		}
 
-		imageHandler(w, req, buf, operation, o)
+		imageHandler(w, req, buf, operation, o, headers)
 	}
 }
 
@@ -68,7 +79,7 @@ func determineAcceptMimeType(accept string) string {
 	return ""
 }
 
-func imageHandler(w http.ResponseWriter, r *http.Request, buf []byte, Operation Operation, o ServerOptions) {
+func imageHandler(w http.ResponseWriter, r *http.Request, buf []byte, Operation Operation, o ServerOptions, cacheHeaders http.Header) {
 	// Infer the body MIME type via mimesniff algorithm
 	mimeType := http.DetectContentType(buf)
 
@@ -114,6 +125,13 @@ func imageHandler(w http.ResponseWriter, r *http.Request, buf []byte, Operation 
 	w.Header().Set("Content-Type", image.Mime)
 	if vary != "" {
 		w.Header().Set("Vary", vary)
+	}
+	if cacheHeaders != nil {
+		for k, v := range cacheHeaders {
+			for _, vv := range v {
+				w.Header().Add(k, vv)
+			}
+		}
 	}
 	w.Write(image.Body)
 }

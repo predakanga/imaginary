@@ -25,6 +25,10 @@ type ImageSource interface {
 	GetImage(*http.Request) ([]byte, error)
 }
 
+type CacheableImageSource interface {
+	GetImageWithCacheHeaders(*http.Request) ([]byte, http.Header, error)
+}
+
 func RegisterSource(sourceType ImageSourceType, factory ImageSourceFactoryFunction) {
 	imageSourceFactoryMap[sourceType] = factory
 }
