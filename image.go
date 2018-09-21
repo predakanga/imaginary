@@ -26,7 +26,7 @@ var OperationsMap = map[string]Operation{
 	"blur":      GaussianBlur,
 	"smartcrop": SmartCrop,
 	"fit":       Fit,
-	"noop":	     Noop,
+	"noop":      Noop,
 }
 
 // Image stores an image binary buffer and its MIME type
